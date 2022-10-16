@@ -18,8 +18,9 @@
       y="{y}mm"
       width="{squareSize}mm"
       height="{squareSize}mm"
-      stroke="#ccc"
+      stroke="#ddd"
       fill="transparent"
+      stroke-width="0.2mm"
     />
   {/each}
 {/each}

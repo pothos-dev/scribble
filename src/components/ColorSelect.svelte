@@ -30,8 +30,8 @@
   {#each colorCols as col}
     <div class="flex flex-col">
       {#each col as color}
-        <div
-          class="w-8 h-8 rounded-full m-1 border-2 border-transparent cursor-pointer"
+        <button
+          class="w-8 h-8 rounded-full m-1 border-2 border-transparent"
           class:border-slate-300={$Color == color}
           style="background-color: {color}"
           on:click={() => Color.set(color)}
