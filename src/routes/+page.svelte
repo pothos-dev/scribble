@@ -1,2 +1,11 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+  import Header from '../components/Header.svelte'
+  import Paper from '../components/Paper.svelte'
+</script>
+
+<div class="w-screen h-screen flex flex-col bg-slate-700 overflow-hidden">
+  <Header />
+  <div class="mx-auto overflow-y-scroll pr-2 my-2">
+    <Paper />
+  </div>
+</div>
