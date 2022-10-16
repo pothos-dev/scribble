@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Mode, Point, PolyLineConf } from '$types'
+  import type { InteractionMode, Point, PolyLineConf } from '$types'
   import PaperGrid from '$components/PaperGrid.svelte'
   import PolyLine from '$components/PolyLine.svelte'
   import { Color, Thickness } from '$stores'
@@ -7,7 +7,7 @@
   export let width = 210
   export let height = 297
 
-  let mode: Mode = 'idle'
+  let mode: InteractionMode = 'idle'
   let currentPoints: Point[] = []
   let polyLines: PolyLineConf[] = []
 
