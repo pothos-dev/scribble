@@ -1,14 +1,15 @@
 <script lang="ts">
-  import type { Mode, Point } from '$types'
+  import type { Mode, Point, PolyLineConf } from '$types'
   import PaperGrid from '$components/PaperGrid.svelte'
   import PolyLine from '$components/PolyLine.svelte'
+  import { Thickness } from '$stores'
 
   export let width = 210
   export let height = 297
 
   let mode: Mode = 'idle'
   let currentPoints: Point[] = []
-  let recordedPoints: Point[][] = []
+  let polyLines: PolyLineConf[] = []
 
   function onPointerDown(event: PointerEvent) {
     if (event.buttons == 1) mode = 'drawing'
@@ -24,8 +25,8 @@
     if (mode == 'erasing') {
       // Drop all polylines that are close to the pointer (10px)
       const minDist = 10
-      recordedPoints = recordedPoints.filter(points =>
-        points.every(point => {
+      polyLines = polyLines.filter(polyline =>
+        polyline.points.every(point => {
           const dx = point[0] - event.offsetX
           const dy = point[1] - event.offsetY
           const sqDist = dx * dx + dy * dy
@@ -37,7 +38,7 @@
   function onPointerUp() {
     mode = 'idle'
     if (currentPoints.length > 1) {
-      recordedPoints = [...recordedPoints, currentPoints]
+      polyLines = [...polyLines, { points: currentPoints, thickness: $Thickness }]
     }
     currentPoints = []
   }
@@ -54,7 +55,10 @@
   on:contextmenu={e => e.preventDefault()}
 >
   <PaperGrid {width} {height} />
-  {#each [...recordedPoints, currentPoints] as points}
-    <PolyLine {points} />
+
+  <PolyLine points={currentPoints} thickness={$Thickness} />
+
+  {#each polyLines as polyLine}
+    <PolyLine points={polyLine.points} thickness={polyLine.thickness} />
   {/each}
 </svg>
