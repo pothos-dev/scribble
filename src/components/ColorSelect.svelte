@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { clickOutside } from '$lib/clickOutside'
   import { Color, ColorSelectMode } from '$stores'
   import { last, range } from 'lodash'
   import { onMount } from 'svelte'

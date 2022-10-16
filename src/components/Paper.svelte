@@ -2,7 +2,7 @@
   import type { Mode, Point, PolyLineConf } from '$types'
   import PaperGrid from '$components/PaperGrid.svelte'
   import PolyLine from '$components/PolyLine.svelte'
-  import { Thickness } from '$stores'
+  import { Color, Thickness } from '$stores'
 
   export let width = 210
   export let height = 297
@@ -38,7 +38,7 @@
   function onPointerUp() {
     mode = 'idle'
     if (currentPoints.length > 1) {
-      polyLines = [...polyLines, { points: currentPoints, thickness: $Thickness }]
+      polyLines = [...polyLines, { points: currentPoints, thickness: $Thickness, color: $Color }]
     }
     currentPoints = []
   }
@@ -56,9 +56,9 @@
 >
   <PaperGrid {width} {height} />
 
-  <PolyLine points={currentPoints} thickness={$Thickness} />
+  <PolyLine points={currentPoints} thickness={$Thickness} color={$Color} />
 
   {#each polyLines as polyLine}
-    <PolyLine points={polyLine.points} thickness={polyLine.thickness} />
+    <PolyLine points={polyLine.points} thickness={polyLine.thickness} color={polyLine.color} />
   {/each}
 </svg>
