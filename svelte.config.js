@@ -12,7 +12,8 @@ const config = {
 
     alias: {
       '$components/*': './src/components/*',
-      $types: './src/types'
+      $types: './src/types',
+      $stores: './src/stores'
     }
   }
 }
