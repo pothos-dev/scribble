@@ -13,7 +13,7 @@
 
   function onPointerDown(event: PointerEvent) {
     if (event.buttons == 1) mode = 'drawing'
-    if (event.buttons == 2) mode = 'erasing'
+    if (event.buttons == 2 || event.buttons == 32) mode = 'erasing'
     if (mode == 'drawing') {
       currentPoints = [[event.offsetX, event.offsetY]]
     }
@@ -47,7 +47,7 @@
 <svg
   width="{width}mm"
   height="{height}mm"
-  class="bg-slate-100 shadow-lg cursor-crosshair"
+  class="bg-slate-100 shadow-lg cursor-crosshair touch-none"
   on:pointerdown={onPointerDown}
   on:pointermove={onPointerMove}
   on:pointerup={onPointerUp}
