@@ -11,12 +11,15 @@
 <svg
   width="{width}mm"
   height="{height}mm"
+  viewBox="0 0 {width} {height}"
   class="bg-slate-100 shadow-lg cursor-crosshair touch-none"
   use:touchInteraction
 >
-  <PaperGrid {width} {height} />
+  <g class="pointer-events-none">
+    <PaperGrid {width} {height} />
 
-  {#each $Shapes as shape}
-    <Shape {shape} />
-  {/each}
+    {#each $Shapes as shape}
+      <Shape {shape} />
+    {/each}
+  </g>
 </svg>

@@ -14,13 +14,13 @@
 {#each range(mx, width - mr, squareSize) as x}
   {#each range(mt, height - mb - squareSize, squareSize) as y}
     <rect
-      x="{x}mm"
-      y="{y}mm"
-      width="{squareSize}mm"
-      height="{squareSize}mm"
+      {x}
+      {y}
+      width={squareSize}
+      height={squareSize}
       stroke="#ddd"
       fill="transparent"
-      stroke-width="0.2mm"
+      stroke-width="0.2"
     />
   {/each}
 {/each}

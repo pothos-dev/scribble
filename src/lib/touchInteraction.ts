@@ -65,5 +65,11 @@ export function touchInteraction(node: SVGSVGElement) {
 }
 
 function getPoint(event: PointerEvent): Point {
-  return [event.offsetX, event.offsetY]
+  // convert to svg coordinates (mm in A4)
+  const svg = event.target as SVGSVGElement
+  const point = svg.createSVGPoint()
+  point.x = event.clientX
+  point.y = event.clientY
+  const svgPoint = point.matrixTransform(svg.getScreenCTM()?.inverse())
+  return [svgPoint.x, svgPoint.y]
 }
