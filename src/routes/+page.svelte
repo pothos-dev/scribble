@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Header from '$components/Header.svelte'
-  import Paper from '$components/Paper.svelte'
+  import Header from '$components/Header/Header.svelte'
+  import Paper from '$components/Paper/Paper.svelte'
   import { scrollSync } from '$lib/scrollSync'
 </script>
 

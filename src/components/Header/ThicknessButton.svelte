@@ -1,6 +1,6 @@
 <script lang="ts">
-  import PolyLine from '$components/PolyLine.svelte'
-  import ToolButton from '$components/ToolButton.svelte'
+  import PolyLine from '$components/Paper/PolyLine.svelte'
+  import ToolButton from '$components/Header/ToolButton.svelte'
   import { Thickness } from '$stores'
 
   export let thickness: number

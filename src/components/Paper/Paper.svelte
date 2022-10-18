@@ -1,6 +1,6 @@
 <script lang="ts">
-  import PaperGrid from '$components/PaperGrid.svelte'
-  import Shape from '$components/Shape.svelte'
+  import PaperGrid from '$components/Paper/PaperGrid.svelte'
+  import Shape from '$components/Paper/Shape.svelte'
   import { Shapes } from '$stores'
   import { touchInteraction } from '$lib/touchInteraction'
 

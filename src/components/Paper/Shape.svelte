@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PolyLine from '$components/PolyLine.svelte'
+  import PolyLine from '$components/Paper/PolyLine.svelte'
   import type { Shape } from '$types'
 
   export let shape: Shape
