@@ -53,12 +53,14 @@ export function touchInteraction(node: SVGSVGElement) {
 
   node.addEventListener('pointerdown', onPointerDown)
   node.addEventListener('pointermove', onPointerMove)
+  node.addEventListener('pointerup', onPointerCancel)
   node.addEventListener('pointercancel', onPointerCancel)
 
   return {
     destroy() {
       node.removeEventListener('pointerdown', onPointerDown)
       node.removeEventListener('pointermove', onPointerMove)
+      node.removeEventListener('pointerup', onPointerCancel)
       node.removeEventListener('pointercancel', onPointerCancel)
     }
   }
