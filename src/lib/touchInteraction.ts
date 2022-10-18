@@ -1,4 +1,4 @@
-import { Color, Drawings, Interaction, Scroll, Thickness } from '$stores'
+import { Color, Shapes, Interaction, Scroll, Thickness } from '$stores'
 import { size } from 'lodash'
 import { get } from 'svelte/store'
 
@@ -15,7 +15,7 @@ export function touchInteraction(node: SVGSVGElement) {
     } else if (event.buttons == 1) {
       Interaction.set('drawing')
       startDrawing()
-      addPointToDrawing(event)
+      addPointToShape(event)
     } else if (event.buttons == 2 || event.buttons == 32) {
       Interaction.set('erasing')
     }
@@ -41,9 +41,9 @@ export function touchInteraction(node: SVGSVGElement) {
       dy -= event.movementY
       Scroll.set([dx, dy])
     } else if (interaction == 'drawing') {
-      addPointToDrawing(event)
+      addPointToShape(event)
     } else if (interaction == 'erasing') {
-      eraseDrawingsNearPoint(event)
+      eraseShapesNearPoint(event)
     }
   }
 
@@ -61,28 +61,28 @@ export function touchInteraction(node: SVGSVGElement) {
 }
 
 function startDrawing() {
-  Drawings.set([
+  Shapes.set([
     {
       type: 'polyline',
       points: [],
       color: get(Color),
       thickness: get(Thickness)
     },
-    ...get(Drawings)
+    ...get(Shapes)
   ])
 }
 
-function addPointToDrawing(event: PointerEvent) {
-  let [currentDrawing, ...drawings] = get(Drawings)
-  currentDrawing.points = [...currentDrawing.points, [event.offsetX, event.offsetY]]
-  Drawings.set([currentDrawing, ...drawings])
+function addPointToShape(event: PointerEvent) {
+  let [currentShape, ...shapes] = get(Shapes)
+  currentShape.points = [...currentShape.points, [event.offsetX, event.offsetY]]
+  Shapes.set([currentShape, ...shapes])
 }
 
-function eraseDrawingsNearPoint(event: PointerEvent) {
-  // Drop all polylines that are close to the pointer (10px)
+function eraseShapesNearPoint(event: PointerEvent) {
+  // Drop all shapes that are close to the pointer (10px)
   const minDist = 10
-  Drawings.set(
-    get(Drawings).filter(drawing =>
+  Shapes.set(
+    get(Shapes).filter(drawing =>
       drawing.points.every(point => {
         const dx = point[0] - event.offsetX
         const dy = point[1] - event.offsetY

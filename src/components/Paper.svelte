@@ -1,7 +1,7 @@
 <script lang="ts">
   import PaperGrid from '$components/PaperGrid.svelte'
   import PolyLine from '$components/PolyLine.svelte'
-  import { Drawings } from '$stores'
+  import { Shapes } from '$stores'
   import { touchInteraction } from '$lib/touchInteraction'
 
   export let width = 210
@@ -16,7 +16,7 @@
 >
   <PaperGrid {width} {height} />
 
-  {#each $Drawings as drawing}
+  {#each $Shapes as drawing}
     <PolyLine points={drawing.points} thickness={drawing.thickness} color={drawing.color} />
   {/each}
 </svg>
