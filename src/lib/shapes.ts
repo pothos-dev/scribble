@@ -34,14 +34,26 @@ export function addPointToShape(point: Point) {
 export function eraseShapesNearPoint(point: Point) {
   // Drop all shapes that are close to the pointer (10px)
   const minDist = 10
+
   Shapes.set(
-    get(Shapes).filter(shape =>
-      shape.points.every(shapePoint => {
+    get(Shapes).filter(shape => {
+      const [min, max] = shape.boundingRect
+      const pointIsInRect =
+        point[0] > min[0] - minDist &&
+        point[0] < max[0] + minDist &&
+        point[1] > min[1] - minDist &&
+        point[1] < max[1] + minDist
+
+      if (!pointIsInRect) return true
+
+      const pointIsNearLine = shape.points.some(shapePoint => {
         const dx = shapePoint[0] - point[0]
         const dy = shapePoint[1] - point[1]
         const sqDist = dx * dx + dy * dy
-        return sqDist > minDist * minDist
+        return sqDist < minDist * minDist
       })
-    )
+
+      return !pointIsNearLine
+    })
   )
 }
