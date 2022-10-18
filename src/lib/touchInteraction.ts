@@ -1,4 +1,6 @@
-import { Color, Shapes, Interaction, Scroll, Thickness } from '$stores'
+import { addPointToShape, createShape, eraseShapesNearPoint } from '$lib/shapes'
+import { Interaction, Scroll } from '$stores'
+import type { Point } from '$types'
 import { size } from 'lodash'
 import { get } from 'svelte/store'
 
@@ -6,6 +8,8 @@ export function touchInteraction(node: SVGSVGElement) {
   let activePointers: { [pointerId: string]: string } = {}
 
   function onPointerDown(event: PointerEvent) {
+    const point = getPoint(event)
+
     // Remember that this pointer is currently touching the paper
     activePointers[event.pointerId] = event.pointerType
 
@@ -14,8 +18,7 @@ export function touchInteraction(node: SVGSVGElement) {
       Interaction.set('pan-zoom')
     } else if (event.buttons == 1) {
       Interaction.set('drawing')
-      startDrawing()
-      addPointToShape(event)
+      createShape(point)
     } else if (event.buttons == 2 || event.buttons == 32) {
       Interaction.set('erasing')
     }
@@ -33,6 +36,7 @@ export function touchInteraction(node: SVGSVGElement) {
 
   function onPointerMove(event: PointerEvent) {
     const interaction = get(Interaction)
+    const point = getPoint(event)
 
     if (interaction == 'pan-zoom') {
       if (!event.isPrimary) return
@@ -41,9 +45,9 @@ export function touchInteraction(node: SVGSVGElement) {
       dy -= event.movementY
       Scroll.set([dx, dy])
     } else if (interaction == 'drawing') {
-      addPointToShape(event)
+      addPointToShape(point)
     } else if (interaction == 'erasing') {
-      eraseShapesNearPoint(event)
+      eraseShapesNearPoint(point)
     }
   }
 
@@ -60,35 +64,6 @@ export function touchInteraction(node: SVGSVGElement) {
   }
 }
 
-function startDrawing() {
-  Shapes.set([
-    {
-      type: 'polyline',
-      points: [],
-      color: get(Color),
-      thickness: get(Thickness)
-    },
-    ...get(Shapes)
-  ])
-}
-
-function addPointToShape(event: PointerEvent) {
-  let [currentShape, ...shapes] = get(Shapes)
-  currentShape.points = [...currentShape.points, [event.offsetX, event.offsetY]]
-  Shapes.set([currentShape, ...shapes])
-}
-
-function eraseShapesNearPoint(event: PointerEvent) {
-  // Drop all shapes that are close to the pointer (10px)
-  const minDist = 10
-  Shapes.set(
-    get(Shapes).filter(drawing =>
-      drawing.points.every(point => {
-        const dx = point[0] - event.offsetX
-        const dy = point[1] - event.offsetY
-        const sqDist = dx * dx + dy * dy
-        return sqDist > minDist * minDist
-      })
-    )
-  )
+function getPoint(event: PointerEvent): Point {
+  return [event.offsetX, event.offsetY]
 }
