@@ -2,18 +2,19 @@
   import { Color, ColorSelectMode } from '$stores'
   import { last, range } from 'lodash'
   import { onMount } from 'svelte'
+  import { hsl } from 'color'
 
   const colorCols: string[][] = []
 
   colorCols.push([])
   for (const lightness of range(0, 100, 20)) {
-    last(colorCols)!.push(`hsl(0, 0%, ${lightness}%)`)
+    last(colorCols)!.push(hsl(0, 0, lightness).hex())
   }
 
   for (const hue of range(0, 360, 36)) {
     colorCols.push([])
     for (const lightness of range(20, 90, 15)) {
-      last(colorCols)!.push(`hsl(${hue}, 100%, ${lightness}%)`)
+      last(colorCols)!.push(hsl(hue, 100, lightness).hex())
     }
   }
 
