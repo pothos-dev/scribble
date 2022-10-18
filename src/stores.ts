@@ -4,7 +4,7 @@ import { writable } from 'svelte/store'
 // Tool Settings
 export let ActiveTool = writable<Tool>('pen')
 export let Color = writable<string>('hsl(0, 0%, 0%)')
-export let Thickness = writable<number>(1)
+export let Thickness = writable<number>(0.5)
 
 // Generated Shapes
 export let Shapes = writable<Shape[]>([])
