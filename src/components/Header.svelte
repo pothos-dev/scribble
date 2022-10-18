@@ -1,5 +1,6 @@
 <script>
-  import Toolbar from './Toolbar.svelte'
+  import PdfExportButton from './PdfExportButton.svelte'
+  import ToolBar from './ToolBar.svelte'
 </script>
 
 <header
@@ -9,7 +10,9 @@
     <h1>Scribble</h1>
   </div>
 
-  <div><Toolbar /></div>
+  <div><ToolBar /></div>
 
   <div />
+
+  <div><PdfExportButton /></div>
 </header>
