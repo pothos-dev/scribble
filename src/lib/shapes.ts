@@ -1,59 +1,66 @@
-import { Color, Shapes, Thickness } from '$stores'
-import type { Point } from '$types'
+import { extendBoundingRect, isInBoundingRect } from '$lib/boundingRect'
+import { ActiveTool, Color, Shapes, Thickness } from '$stores'
+import type { Point, Shape } from '$types'
 import { get } from 'svelte/store'
 
 export function createShape(point: Point) {
-  Shapes.set([
-    {
-      type: 'polyline',
-      points: [point],
-      boundingRect: [point, point],
-      color: get(Color),
-      thickness: get(Thickness)
-    },
-    ...get(Shapes)
-  ])
+  const tool = get(ActiveTool)
+
+  const shape: Shape | null =
+    tool == 'pen'
+      ? {
+          type: 'polyline',
+          points: [point],
+          boundingRect: [point, point],
+          color: get(Color),
+          thickness: get(Thickness)
+        }
+      : tool == 'select'
+      ? {
+          type: 'select',
+          boundingRect: [point, point]
+        }
+      : null
+
+  if (shape) {
+    Shapes.set([shape, ...get(Shapes)])
+  }
 }
 
 export function addPointToShape(point: Point) {
   let [currentShape, ...shapes] = get(Shapes)
-  currentShape.points = [...currentShape.points, point]
-  currentShape.boundingRect = [
-    [
-      Math.min(currentShape.boundingRect[0][0], point[0]),
-      Math.min(currentShape.boundingRect[0][1], point[1])
-    ],
-    [
-      Math.max(currentShape.boundingRect[1][0], point[0]),
-      Math.max(currentShape.boundingRect[1][1], point[1])
-    ]
-  ]
+
+  // Extend BoundingBox with the new Point
+  currentShape.boundingRect = extendBoundingRect(currentShape.boundingRect, point)
+
+  if ('points' in currentShape) {
+    currentShape.points = [...currentShape.points, point]
+  }
+
   Shapes.set([currentShape, ...shapes])
 }
 
 export function eraseShapesNearPoint(point: Point) {
-  // Drop all shapes that are close to the pointer (10px)
   const minDist = 10
 
   Shapes.set(
     get(Shapes).filter(shape => {
-      const [min, max] = shape.boundingRect
-      const pointIsInRect =
-        point[0] > min[0] - minDist &&
-        point[0] < max[0] + minDist &&
-        point[1] > min[1] - minDist &&
-        point[1] < max[1] + minDist
+      if (!isInBoundingRect(shape.boundingRect, point, minDist)) {
+        return true
+      }
 
-      if (!pointIsInRect) return true
+      if (shape.type == 'polyline') {
+        const pointIsNearLine = shape.points.some(shapePoint => {
+          const dx = shapePoint[0] - point[0]
+          const dy = shapePoint[1] - point[1]
+          const sqDist = dx * dx + dy * dy
+          return sqDist < minDist * minDist
+        })
 
-      const pointIsNearLine = shape.points.some(shapePoint => {
-        const dx = shapePoint[0] - point[0]
-        const dy = shapePoint[1] - point[1]
-        const sqDist = dx * dx + dy * dy
-        return sqDist < minDist * minDist
-      })
+        return !pointIsNearLine
+      }
 
-      return !pointIsNearLine
+      return true
     })
   )
 }
