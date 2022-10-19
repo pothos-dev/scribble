@@ -37,11 +37,13 @@ function drawGrid(pdf: jsPDF) {
 }
 
 function drawShape(pdf: jsPDF, shape: Shape) {
-  pdf.moveTo(shape.points[0][0], shape.points[0][1])
-  shape.points.forEach(point => {
-    pdf.lineTo(point[0], point[1])
-  })
-  pdf.setDrawColor(shape.color)
-  pdf.setLineWidth(shape.thickness)
-  pdf.stroke()
+  if ('points' in shape) {
+    pdf.moveTo(shape.points[0][0], shape.points[0][1])
+    shape.points.forEach(point => {
+      pdf.lineTo(point[0], point[1])
+    })
+    pdf.setDrawColor(shape.color)
+    pdf.setLineWidth(shape.thickness)
+    pdf.stroke()
+  }
 }

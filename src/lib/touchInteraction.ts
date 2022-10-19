@@ -1,11 +1,19 @@
-import { addPointToShape, createShape, eraseShapesNearPoint } from '$lib/shapes'
-import { Interaction, Scroll } from '$stores'
+import { TouchInteractionMode, Scroll, ToolInteraction, ActiveTool } from '$stores'
 import type { Point } from '$types'
 import { size } from 'lodash'
 import { get } from 'svelte/store'
 
 export function touchInteraction(node: SVGSVGElement) {
   let activePointers: { [pointerId: string]: string } = {}
+
+  function getPoint(event: PointerEvent): Point {
+    // convert to svg coordinates (mm in A4)
+    const point = node.createSVGPoint()
+    point.x = event.clientX
+    point.y = event.clientY
+    const svgPoint = point.matrixTransform(node.getScreenCTM()?.inverse())
+    return [svgPoint.x, svgPoint.y]
+  }
 
   function onPointerDown(event: PointerEvent) {
     const point = getPoint(event)
@@ -15,27 +23,31 @@ export function touchInteraction(node: SVGSVGElement) {
 
     // Determine the Interaction mode depending on pointer type and active buttons
     if (event.pointerType == 'touch') {
-      Interaction.set('pan-zoom')
+      TouchInteractionMode.set('pan-zoom')
     } else if (event.buttons == 1) {
-      Interaction.set('drawing')
-      createShape(point)
+      TouchInteractionMode.set('tool')
+      get(ToolInteraction).onTouchDown(point)
     } else if (event.buttons == 2 || event.buttons == 32) {
-      Interaction.set('erasing')
+      TouchInteractionMode.set('tool')
+      ActiveTool.set('eraser')
+      get(ToolInteraction).onTouchDown(point)
     }
   }
 
   function onPointerCancel(event: PointerEvent) {
+    get(ToolInteraction).onTouchUp(getPoint(event))
+
     // The pointer is no longer touching the paper
     delete activePointers[event.pointerId]
 
     // If no pointer touches the paper anymore, stop the current interaction
     if (size(activePointers) == 0) {
-      Interaction.set('idle')
+      TouchInteractionMode.set('idle')
     }
   }
 
   function onPointerMove(event: PointerEvent) {
-    const interaction = get(Interaction)
+    const interaction = get(TouchInteractionMode)
     const point = getPoint(event)
 
     if (interaction == 'pan-zoom') {
@@ -44,10 +56,8 @@ export function touchInteraction(node: SVGSVGElement) {
       dx -= event.movementX
       dy -= event.movementY
       Scroll.set([dx, dy])
-    } else if (interaction == 'drawing') {
-      addPointToShape(point)
-    } else if (interaction == 'erasing') {
-      eraseShapesNearPoint(point)
+    } else if (interaction == 'tool') {
+      get(ToolInteraction).onTouchMove(point)
     }
   }
 
@@ -64,14 +74,4 @@ export function touchInteraction(node: SVGSVGElement) {
       node.removeEventListener('pointercancel', onPointerCancel)
     }
   }
-}
-
-function getPoint(event: PointerEvent): Point {
-  // convert to svg coordinates (mm in A4)
-  const svg = event.target as SVGSVGElement
-  const point = svg.createSVGPoint()
-  point.x = event.clientX
-  point.y = event.clientY
-  const svgPoint = point.matrixTransform(svg.getScreenCTM()?.inverse())
-  return [svgPoint.x, svgPoint.y]
 }
