@@ -1,4 +1,4 @@
-export type Tool = 'pen' | 'line' | 'rectangle'
+export type Tool = 'pen' | 'line' | 'rectangle' | 'select'
 export type InteractionMode = 'idle' | 'pan-zoom' | 'drawing' | 'erasing'
 
 export type Point = [number, number]

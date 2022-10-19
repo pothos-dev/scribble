@@ -1,6 +1,9 @@
 <script>
+  import ColorButton from './ColorButton.svelte'
   import PdfExportButton from './PdfExportButton.svelte'
-  import ToolBar from './ToolBar.svelte'
+  import PenToolButton from './PenToolButton.svelte'
+  import SelectToolButton from './SelectToolButton.svelte'
+  import ThicknessButton from './ThicknessButton.svelte'
 </script>
 
 <header
@@ -10,9 +13,20 @@
     <h1>Scribble</h1>
   </div>
 
-  <div><ToolBar /></div>
+  <div class="flex flex-row space-x-1">
+    <ColorButton />
 
-  <div />
+    <div class="w-1" />
+
+    {#each [0.25, 0.5, 1, 2] as thickness}
+      <ThicknessButton {thickness} />
+    {/each}
+
+    <div class="w-1" />
+
+    <PenToolButton />
+    <SelectToolButton />
+  </div>
 
   <div><PdfExportButton /></div>
 </header>
