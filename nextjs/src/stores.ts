@@ -1,10 +1,10 @@
-import type { Tool, Shape, TouchInteraction } from "~/types"
+import { Tool, Shape, TouchInteraction, IToolInteraction } from "~/types"
 import { createHookstate } from "@hookstate/core"
 
 // Tool Settings
 export let SelectedTool = createHookstate<Tool>("pen")
 export let ActiveTool = createHookstate<Tool>("pen")
-// export let ToolInteraction = derived(ActiveTool, createToolInteraction)
+export let ToolInteraction = createHookstate<IToolInteraction>(null as any) // TODO
 
 export let Color = createHookstate<string>("#000000")
 export let Thickness = createHookstate<number>(0.5)
