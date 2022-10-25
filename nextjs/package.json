@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookstate/core": "^4.0.0-rc21",
     "color": "^4.2.3",
     "jspdf": "^2.5.1",
     "lodash": "^4.17.21",
