@@ -1,9 +1,8 @@
-import { useShapesManager } from "~/lib/ShapesManager"
+import { shapesManager } from "~/lib/ShapesManager"
 import type { Tool, IToolInteraction } from "~/types"
 
 export function createToolInteraction(tool: Tool): IToolInteraction {
-  const { createShape, addPointToShape, eraseShapesNearPoint } =
-    useShapesManager.getState()
+  const { createShape, addPointToShape, eraseShapesNearPoint } = shapesManager()
 
   if (tool == "pen") {
     return {

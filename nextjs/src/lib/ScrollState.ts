@@ -38,3 +38,5 @@ export function useScrollSync() {
 
   return { ref }
 }
+
+export const scrollState = useScrollState.getState

@@ -22,3 +22,5 @@ export const useSettings = zustand<Settings>()(set => ({
   thickness: 0.5,
   setThickness: thickness => set({ thickness }),
 }))
+
+export const settings = useSettings.getState

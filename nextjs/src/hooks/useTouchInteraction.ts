@@ -1,7 +1,7 @@
 import type { Point } from "~/types"
 import { size } from "lodash"
 import { useRef } from "react"
-import { useScrollState } from "~/lib/ScrollState"
+import { scrollState } from "~/lib/ScrollState"
 import { interactionManager } from "~/lib/InteractionManager"
 
 export function useTouchInteraction() {
@@ -57,7 +57,7 @@ export function useTouchInteraction() {
 
     if (interaction == "pan-zoom") {
       if (!event.isPrimary) return
-      const { x, y, setScroll } = useScrollState.getState()
+      const { x, y, setScroll } = scrollState()
       setScroll(x - event.movementX, y - event.movementY)
     } else if (interaction == "tool") {
       interactionManager().tool.onTouchMove(getPoint(event))

@@ -1,6 +1,6 @@
 import zustand from "zustand"
 import { extendBoundingRect, isInBoundingRect } from "~/lib/boundingRect"
-import { useSettings } from "~/lib/Settings"
+import { settings } from "~/lib/Settings"
 import type { Point, Shape } from "~/types"
 
 type ShapesManager = {
@@ -15,7 +15,7 @@ export const useShapesManager = zustand<ShapesManager>()(set => ({
   shapes: [] as Shape[],
 
   createShape(point) {
-    const { tool, color, thickness } = useSettings.getState()
+    const { tool, color, thickness } = settings()
 
     const shape: Shape | null =
       tool == "pen"
@@ -83,3 +83,5 @@ export const useShapesManager = zustand<ShapesManager>()(set => ({
     })
   },
 }))
+
+export const shapesManager = useShapesManager.getState
