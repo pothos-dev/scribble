@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import { useHookstate } from "@hookstate/core"
 
 export function useScrollSync() {
-  const ref = useRef<HTMLElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const element = ref.current
 
   const [xScroll, yScroll] = useHookstate(Scroll).get()

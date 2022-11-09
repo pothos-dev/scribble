@@ -14,7 +14,7 @@ export function useTouchInteraction() {
   const ref = useRef<SVGSVGElement>(null)
   const svg = ref.current!
 
-  function getPoint(event: PointerEvent): Point {
+  function getPoint(event: React.PointerEvent): Point {
     // convert to svg coordinates (mm in A4)
     const point = svg.createSVGPoint()
     point.x = event.clientX
@@ -23,7 +23,7 @@ export function useTouchInteraction() {
     return [svgPoint.x, svgPoint.y]
   }
 
-  function onPointerDown(event: PointerEvent) {
+  function onPointerDown(event: React.PointerEvent) {
     const point = getPoint(event)
 
     // Remember that this pointer is currently touching the paper
@@ -42,11 +42,11 @@ export function useTouchInteraction() {
     }
   }
 
-  function onPointerUp(event: PointerEvent) {
+  function onPointerUp(event: React.PointerEvent) {
     onPointerCancel(event)
   }
 
-  function onPointerCancel(event: PointerEvent) {
+  function onPointerCancel(event: React.PointerEvent) {
     ToolInteraction.get().onTouchUp(getPoint(event))
 
     // The pointer is no longer touching the paper
@@ -58,7 +58,7 @@ export function useTouchInteraction() {
     }
   }
 
-  function onPointerMove(event: PointerEvent) {
+  function onPointerMove(event: React.PointerEvent) {
     const interaction = TouchInteractionMode.get()
     const point = getPoint(event)
 
