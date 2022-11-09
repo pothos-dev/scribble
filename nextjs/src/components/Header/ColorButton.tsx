@@ -1,22 +1,12 @@
-import { useHookstate } from "@hookstate/core"
 import { ColorSelect } from "~/components/Header/ColorSelect"
 import { HeaderButton } from "~/components/Header/HeaderButton"
-import { Color, ColorSelectMode } from "~/stores"
+import { useSettings, useUIState } from "~/atoms"
 
 export function ColorButton() {
-  const active = useHookstate(ColorSelectMode).get()
-  const color = useHookstate(Color).get()
+  const color = useSettings(s => s.color)
 
-  function onClick() {
-    if (active) {
-      ColorSelectMode.set(false)
-    } else {
-      // We must defer the mounting of the <ColorSelect/> here,
-      // otherwise it will observe the same click that mounted it, and close immediately -
-      // because it closes whenever it sees a click outside of itself.
-      setTimeout(() => ColorSelectMode.set(true), 1)
-    }
-  }
+  const active = useUIState(s => s.colorSelectMode)
+  const onClick = useUIState(s => s.toggleColorSelectMode)
 
   return (
     <div>

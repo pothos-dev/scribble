@@ -1,15 +1,15 @@
-import { useHookstate } from "@hookstate/core"
 import { HeaderButton } from "~/components/Header/HeaderButton"
 import { PolyLine } from "~/components/Paper/PolyLine"
-import { Thickness } from "~/stores"
+import { useSettings } from "~/atoms"
 
 export function ThicknessButton({ thickness }: { thickness: number }) {
-  const _thickness = useHookstate(Thickness)
+  const activeThickness = useSettings(s => s.thickness)
+  const setThickness = useSettings(s => s.setThickness)
 
   return (
     <HeaderButton
-      active={thickness == _thickness.get()}
-      onClick={() => _thickness.set(thickness)}
+      active={thickness == activeThickness}
+      onClick={() => setThickness(thickness)}
     >
       <svg className="w-full h-full" viewBox="0 0 100 100">
         <PolyLine

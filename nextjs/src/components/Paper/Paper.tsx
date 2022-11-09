@@ -1,8 +1,7 @@
-import { useHookstate } from "@hookstate/core"
 import { PaperGrid } from "~/components/Paper/PaperGrid"
 import { Shape } from "~/components/Paper/Shape"
 import { useTouchInteraction } from "~/hooks/useTouchInteraction"
-import { Shapes } from "~/stores"
+import { useShapesManager } from "~/lib/ShapesManager"
 
 export function Paper({
   width = 210,
@@ -11,7 +10,7 @@ export function Paper({
   width?: number
   height?: number
 }) {
-  const shapes = useHookstate(Shapes).get()
+  const shapes = useShapesManager(s => s.shapes)
 
   return (
     <svg

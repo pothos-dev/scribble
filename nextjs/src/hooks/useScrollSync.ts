@@ -1,30 +1,29 @@
 import { clamp } from "~/lib/math"
-import { Scroll } from "~/stores"
 import { useEffect, useRef } from "react"
-import { useHookstate } from "@hookstate/core"
+import { useScroll } from "~/atoms"
 
 export function useScrollSync() {
   const ref = useRef<HTMLDivElement>(null)
   const element = ref.current
 
-  const [xScroll, yScroll] = useHookstate(Scroll).get()
+  const scroll = useScroll()
 
   useEffect(() => {
     if (!element) return
 
     const xMin = 0
     const xMax = element.scrollWidth - element.clientWidth
-    const x = clamp(xScroll, xMin, xMax)
+    const x = clamp(scroll.x, xMin, xMax)
 
     const yMin = 0
     const yMax = element.scrollHeight - element.clientHeight
-    const y = clamp(yScroll, yMin, yMax)
+    const y = clamp(scroll.y, yMin, yMax)
 
     element.scrollTo(x, y)
-    if (x != xScroll || y != yScroll) {
-      Scroll.set([x, y])
+    if (x != scroll.x || y != scroll.y) {
+      scroll.setScroll(x, y)
     }
-  }, [element, xScroll, yScroll])
+  }, [element, scroll])
 
   return { ref }
 }

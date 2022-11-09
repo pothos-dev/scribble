@@ -1,12 +1,7 @@
-import {
-  TouchInteractionMode,
-  Scroll,
-  ToolInteraction,
-  ActiveTool,
-} from "~/stores"
 import type { Point } from "~/types"
 import { size } from "lodash"
 import { useRef } from "react"
+import { useInteraction, useScroll } from "~/atoms"
 
 export function useTouchInteraction() {
   let activePointers = useRef<{ [pointerId: string]: string }>({}).current
@@ -32,14 +27,11 @@ export function useTouchInteraction() {
 
     // Determine the Interaction mode depending on pointer type and active buttons
     if (event.pointerType == "touch") {
-      TouchInteractionMode.set("pan-zoom")
+      useInteraction.getState().startPanZoom(point)
     } else if (event.buttons == 1) {
-      TouchInteractionMode.set("tool")
-      ToolInteraction.get().onTouchDown(point)
+      useInteraction.getState().startTool(point)
     } else if (event.buttons == 2 || event.buttons == 32) {
-      TouchInteractionMode.set("tool")
-      ActiveTool.set("eraser")
-      ToolInteraction.get().onTouchDown(point)
+      useInteraction.getState().startEraser(point)
     }
   }
 
@@ -48,29 +40,26 @@ export function useTouchInteraction() {
   }
 
   function onPointerCancel(event: React.PointerEvent) {
-    ToolInteraction.get().onTouchUp(getPoint(event))
+    useInteraction.getState().tool.onTouchUp(getPoint(event))
 
     // The pointer is no longer touching the paper
     delete activePointers[event.pointerId]
 
     // If no pointer touches the paper anymore, stop the current interaction
     if (size(activePointers) == 0) {
-      TouchInteractionMode.set("idle")
+      useInteraction.getState().stopInteraction()
     }
   }
 
   function onPointerMove(event: React.PointerEvent) {
-    const interaction = TouchInteractionMode.get()
-    const point = getPoint(event)
+    const interaction = useInteraction.getState().mode
 
     if (interaction == "pan-zoom") {
       if (!event.isPrimary) return
-      let [dx, dy] = Scroll.get()
-      dx -= event.movementX
-      dy -= event.movementY
-      Scroll.set([dx, dy])
+      const { x, y, setScroll } = useScroll.getState()
+      setScroll(x - event.movementX, y - event.movementY)
     } else if (interaction == "tool") {
-      ToolInteraction.get().onTouchMove(point)
+      useInteraction.getState().tool.onTouchMove(getPoint(event))
     }
   }
 
