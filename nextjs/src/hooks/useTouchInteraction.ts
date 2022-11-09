@@ -12,14 +12,15 @@ export function useTouchInteraction() {
   let activePointers = useRef<{ [pointerId: string]: string }>({}).current
 
   const ref = useRef<SVGSVGElement>(null)
-  const svg = ref.current!
 
   function getPoint(event: React.PointerEvent): Point {
     // convert to svg coordinates (mm in A4)
-    const point = svg.createSVGPoint()
+    const point = ref.current!.createSVGPoint()
     point.x = event.clientX
     point.y = event.clientY
-    const svgPoint = point.matrixTransform(svg.getScreenCTM()?.inverse())
+    const svgPoint = point.matrixTransform(
+      ref.current!.getScreenCTM()?.inverse()
+    )
     return [svgPoint.x, svgPoint.y]
   }
 

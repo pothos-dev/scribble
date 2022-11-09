@@ -11,21 +11,15 @@ export function Paper({
   width?: number
   height?: number
 }) {
-  const { onPointerCancel, onPointerDown, onPointerMove, onPointerUp } =
-    useTouchInteraction()
-
   const shapes = useHookstate(Shapes).get()
 
   return (
     <svg
-      width="{width}mm"
-      height="{height}mm"
-      viewBox="0 0 {width} {height}"
+      width={`${width}mm`}
+      height={`${height}mm`}
+      viewBox={`0 0 ${width} ${height}`}
       className="bg-slate-100 shadow-lg cursor-crosshair touch-none"
-      onPointerCancel={onPointerCancel}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
+      {...useTouchInteraction()}
     >
       <g className="pointer-events-none">
         <PaperGrid width={width} height={height} />
