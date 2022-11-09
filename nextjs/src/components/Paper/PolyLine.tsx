@@ -15,8 +15,8 @@ export function PolyLine({
       stroke={color}
       fill="none"
       stroke-width={thickness}
-      stroke-linejoin="round"
-      stroke-linecap="round"
+      strokeLinejoin="round"
+      strokeLinecap="round"
     />
   )
 }

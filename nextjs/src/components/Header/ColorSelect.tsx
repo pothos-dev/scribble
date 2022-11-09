@@ -2,7 +2,8 @@ import { last, range } from "lodash"
 import { hsl } from "color"
 import { useEffect } from "react"
 import classNames from "classnames"
-import { useSettings, useUIState } from "~/atoms"
+import { useSettings } from "~/lib/Settings"
+import { useUIState } from "~/lib/UIState"
 
 export function ColorSelect() {
   const toggle = useUIState(s => s.toggleColorSelectMode)

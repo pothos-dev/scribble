@@ -15,8 +15,8 @@ export function Shape({ shape }: { shape: Shape }) {
         height={shape.boundingRect[1][1] - shape.boundingRect[0][1]}
         fill="none"
         stroke="black"
-        stroke-width="0.2"
-        stroke-dasharray="2,2"
+        strokeWidth="0.2"
+        strokeDasharray="2,2"
       />
     )
   }

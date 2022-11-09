@@ -1,12 +1,23 @@
-import { clamp } from "~/lib/math"
-import { useEffect, useRef } from "react"
-import { useScroll } from "~/atoms"
+import { clamp } from "lodash"
+import { useRef, useEffect } from "react"
+import zustand from "zustand"
+
+type ScrollState = {
+  x: number
+  y: number
+  setScroll(x: number, y: number): void
+}
+export const useScrollState = zustand<ScrollState>()(set => ({
+  x: 0,
+  y: 0,
+  setScroll: (x, y) => set({ x, y }),
+}))
 
 export function useScrollSync() {
   const ref = useRef<HTMLDivElement>(null)
   const element = ref.current
 
-  const scroll = useScroll()
+  const scroll = useScrollState()
 
   useEffect(() => {
     if (!element) return

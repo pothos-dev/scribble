@@ -1,7 +1,8 @@
 import type { Point } from "~/types"
 import { size } from "lodash"
 import { useRef } from "react"
-import { useInteraction, useScroll } from "~/atoms"
+import { useScrollState } from "~/lib/ScrollState"
+import { interactionManager } from "~/lib/InteractionManager"
 
 export function useTouchInteraction() {
   let activePointers = useRef<{ [pointerId: string]: string }>({}).current
@@ -27,11 +28,11 @@ export function useTouchInteraction() {
 
     // Determine the Interaction mode depending on pointer type and active buttons
     if (event.pointerType == "touch") {
-      useInteraction.getState().startPanZoom(point)
+      interactionManager().startPanZoom(point)
     } else if (event.buttons == 1) {
-      useInteraction.getState().startTool(point)
+      interactionManager().startTool(point)
     } else if (event.buttons == 2 || event.buttons == 32) {
-      useInteraction.getState().startEraser(point)
+      interactionManager().startEraser(point)
     }
   }
 
@@ -40,26 +41,26 @@ export function useTouchInteraction() {
   }
 
   function onPointerCancel(event: React.PointerEvent) {
-    useInteraction.getState().tool.onTouchUp(getPoint(event))
+    interactionManager().tool.onTouchUp(getPoint(event))
 
     // The pointer is no longer touching the paper
     delete activePointers[event.pointerId]
 
     // If no pointer touches the paper anymore, stop the current interaction
     if (size(activePointers) == 0) {
-      useInteraction.getState().stopInteraction()
+      interactionManager().stopInteraction()
     }
   }
 
   function onPointerMove(event: React.PointerEvent) {
-    const interaction = useInteraction.getState().mode
+    const interaction = interactionManager().mode
 
     if (interaction == "pan-zoom") {
       if (!event.isPrimary) return
-      const { x, y, setScroll } = useScroll.getState()
+      const { x, y, setScroll } = useScrollState.getState()
       setScroll(x - event.movementX, y - event.movementY)
     } else if (interaction == "tool") {
-      useInteraction.getState().tool.onTouchMove(getPoint(event))
+      interactionManager().tool.onTouchMove(getPoint(event))
     }
   }
 

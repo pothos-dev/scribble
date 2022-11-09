@@ -1,6 +1,7 @@
 import { ColorSelect } from "~/components/Header/ColorSelect"
 import { HeaderButton } from "~/components/Header/HeaderButton"
-import { useSettings, useUIState } from "~/atoms"
+import { useSettings } from "~/lib/Settings"
+import { useUIState } from "~/lib/UIState"
 
 export function ColorButton() {
   const color = useSettings(s => s.color)

@@ -25,7 +25,7 @@ export function PaperGrid({
             height={squareSize}
             stroke="#ddd"
             fill="transparent"
-            stroke-width="0.2"
+            strokeWidth="0.2"
           />
         ))
       )}
