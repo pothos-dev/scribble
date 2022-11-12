@@ -1,6 +1,6 @@
 import { HeaderButton } from "~/components/Header/HeaderButton"
 import { PolyLine } from "~/components/Paper/PolyLine"
-import { useSettings } from "~/lib/Settings"
+import { useSettings } from "~/state/Settings"
 
 export function ThicknessButton({ thickness }: { thickness: number }) {
   const activeThickness = useSettings(s => s.thickness)

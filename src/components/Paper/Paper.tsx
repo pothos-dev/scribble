@@ -1,7 +1,7 @@
 import { PaperGrid } from "~/components/Paper/PaperGrid"
 import { Shape } from "~/components/Paper/Shape"
 import { useTouchInteraction } from "~/hooks/useTouchInteraction"
-import { useShapesManager } from "~/lib/ShapesManager"
+import { useShapesManager } from "~/state/ShapesManager"
 
 export function Paper({
   width = 210,

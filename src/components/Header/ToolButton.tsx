@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import { HeaderButton } from "~/components/Header/HeaderButton"
-import { useSettings } from "~/lib/Settings"
+import { useSettings } from "~/state/Settings"
 import { Tool } from "~/types"
 
 export function PenToolButton() {

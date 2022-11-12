@@ -1,4 +1,4 @@
-import { shapesManager } from "~/lib/ShapesManager"
+import { shapesManager } from "~/state/ShapesManager"
 import type { Tool, IToolInteraction } from "~/types"
 
 export function createToolInteraction(tool: Tool): IToolInteraction {

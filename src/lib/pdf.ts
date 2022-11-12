@@ -1,7 +1,7 @@
 import type { Shape } from "~/types"
 import jsPDF from "jspdf"
 import { range } from "lodash"
-import { shapesManager } from "~/lib/ShapesManager"
+import { shapesManager } from "~/state/ShapesManager"
 
 export async function downloadAsPdf() {
   const pdf = new jsPDF({})

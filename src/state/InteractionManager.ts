@@ -1,7 +1,7 @@
 import { Tool, Shape, TouchInteraction, IToolInteraction, Point } from "~/types"
 import zustand from "zustand"
 import { createToolInteraction } from "~/lib/toolInteraction"
-import { settings } from "~/lib/Settings"
+import { settings } from "~/state/Settings"
 
 type InteractionManager = {
   mode: TouchInteraction

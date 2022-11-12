@@ -1,6 +1,6 @@
 import zustand from "zustand"
 import { extendBoundingRect, isInBoundingRect } from "~/lib/boundingRect"
-import { settings } from "~/lib/Settings"
+import { settings } from "~/state/Settings"
 import type { Point, Shape } from "~/types"
 
 type ShapesManager = {

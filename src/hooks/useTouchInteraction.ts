@@ -1,8 +1,8 @@
 import type { Point } from "~/types"
 import { size } from "lodash"
 import { useRef } from "react"
-import { scrollState } from "~/lib/ScrollState"
-import { interactionManager } from "~/lib/InteractionManager"
+import { scrollState } from "~/state/ScrollState"
+import { interactionManager } from "~/state/InteractionManager"
 
 export function useTouchInteraction() {
   let activePointers = useRef<{ [pointerId: string]: string }>({}).current

@@ -1,6 +1,6 @@
 import { Header } from "~/components/Header/Header"
 import { Paper } from "~/components/Paper/Paper"
-import { useScrollSync } from "~/lib/ScrollState"
+import { useScrollSync } from "~/state/ScrollState"
 
 export default function IndexPage() {
   return (
