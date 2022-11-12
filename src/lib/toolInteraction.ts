@@ -10,7 +10,9 @@ export function createToolInteraction(tool: Tool): IToolInteraction {
       onTouchMove(point) {
         shapesManager().addPointToShape(point)
       },
-      onTouchUp(point) {},
+      onTouchUp(point) {
+        shapesManager().finalizeShape()
+      },
     }
   }
 

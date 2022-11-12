@@ -1,6 +1,7 @@
 import zustand from "zustand"
 import { extendBoundingRect, isInBoundingRect } from "~/lib/boundingRect"
 import { createId } from "~/lib/createId"
+import { simplifyPolyLine } from "~/lib/simplifyPolyLine"
 import { settings } from "~/state/Settings"
 import type { Point, Shape } from "~/types"
 
@@ -9,6 +10,7 @@ type ShapesManager = {
 
   createShape(point: Point): void
   addPointToShape(point: Point): void
+  finalizeShape(): void
   eraseShapesNearPoint(point: Point): void
 }
 
@@ -53,6 +55,18 @@ export const useShapesManager = zustand<ShapesManager>()(set => ({
 
       if ("points" in currentShape) {
         currentShape.points = [...currentShape.points, point]
+      }
+
+      return { shapes: [currentShape, ...shapes] }
+    })
+  },
+
+  finalizeShape() {
+    set(state => {
+      let [currentShape, ...shapes] = state.shapes
+
+      if ("points" in currentShape) {
+        currentShape.points = simplifyPolyLine(currentShape.points, 0.4)
       }
 
       return { shapes: [currentShape, ...shapes] }
