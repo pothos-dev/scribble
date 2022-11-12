@@ -37,7 +37,7 @@ export const useShapesManager = zustand<ShapesManager>()(set => ({
         : null
 
     if (shape) {
-      set(state => ({ shapes: [...state.shapes, shape] }))
+      set(state => ({ shapes: [shape, ...state.shapes] }))
     }
   },
 

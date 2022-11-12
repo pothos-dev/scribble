@@ -2,15 +2,13 @@ import { shapesManager } from "~/state/ShapesManager"
 import type { Tool, IToolInteraction } from "~/types"
 
 export function createToolInteraction(tool: Tool): IToolInteraction {
-  const { createShape, addPointToShape, eraseShapesNearPoint } = shapesManager()
-
   if (tool == "pen") {
     return {
       onTouchDown(point) {
-        createShape(point)
+        shapesManager().createShape(point)
       },
       onTouchMove(point) {
-        addPointToShape(point)
+        shapesManager().addPointToShape(point)
       },
       onTouchUp(point) {},
     }
@@ -20,7 +18,7 @@ export function createToolInteraction(tool: Tool): IToolInteraction {
     return {
       onTouchDown(point) {},
       onTouchMove(point) {
-        eraseShapesNearPoint(point)
+        shapesManager().eraseShapesNearPoint(point)
       },
       onTouchUp(point) {},
     }

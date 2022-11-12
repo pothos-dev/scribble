@@ -14,7 +14,7 @@ export function PaperGrid({
   const mb = 7.5
 
   return (
-    <>
+    <g>
       {range(ml, width - mr, squareSize).map(x =>
         range(mt, height - mb, squareSize).map(y => (
           <rect
@@ -29,6 +29,6 @@ export function PaperGrid({
           />
         ))
       )}
-    </>
+    </g>
   )
 }
