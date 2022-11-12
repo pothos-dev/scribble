@@ -1,6 +1,6 @@
-export type Tool = 'pen' | 'line' | 'rectangle' | 'select' | 'eraser'
+export type Tool = "pen" | "line" | "rectangle" | "select" | "eraser"
 
-export type TouchInteraction = 'idle' | 'pan-zoom' | 'tool'
+export type TouchInteraction = "idle" | "pan-zoom" | "tool"
 export type IToolInteraction = {
   onTouchDown(point: Point): void
   onTouchMove(point: Point): void
@@ -13,7 +13,8 @@ export type Rect = [Point, Point]
 export type Shape = PolyLineShape | SelectShape
 
 export type PolyLineShape = {
-  type: 'polyline'
+  id: string
+  type: "polyline"
   boundingRect: Rect
   points: Point[]
   thickness: number
@@ -21,6 +22,7 @@ export type PolyLineShape = {
 }
 
 export type SelectShape = {
-  type: 'select'
+  id: string
+  type: "select"
   boundingRect: Rect
 }

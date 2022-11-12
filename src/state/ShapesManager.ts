@@ -1,5 +1,6 @@
 import zustand from "zustand"
 import { extendBoundingRect, isInBoundingRect } from "~/lib/boundingRect"
+import { createId } from "~/lib/createId"
 import { settings } from "~/state/Settings"
 import type { Point, Shape } from "~/types"
 
@@ -20,6 +21,7 @@ export const useShapesManager = zustand<ShapesManager>()(set => ({
     const shape: Shape | null =
       tool == "pen"
         ? {
+            id: createId(),
             type: "polyline",
             points: [point],
             boundingRect: [point, point],
@@ -28,6 +30,7 @@ export const useShapesManager = zustand<ShapesManager>()(set => ({
           }
         : tool == "select"
         ? {
+            id: createId(),
             type: "select",
             boundingRect: [point, point],
           }

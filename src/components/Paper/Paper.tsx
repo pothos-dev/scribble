@@ -10,8 +10,6 @@ export function Paper({
   width?: number
   height?: number
 }) {
-  const shapes = useShapesManager(s => s.shapes)
-
   return (
     <svg
       width={`${width}mm`}
@@ -23,10 +21,20 @@ export function Paper({
       <g className="pointer-events-none">
         <PaperGrid width={width} height={height} />
 
-        {shapes.map((shape, i) => (
-          <Shape key={i} shape={shape} />
-        ))}
+        <Shapes />
       </g>
     </svg>
+  )
+}
+
+function Shapes() {
+  const shapes = useShapesManager(s => s.shapes)
+
+  return (
+    <>
+      {shapes.map(shape => (
+        <Shape key={shape.id} shape={shape} />
+      ))}
+    </>
   )
 }
