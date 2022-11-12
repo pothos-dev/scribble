@@ -3,6 +3,7 @@ import { size } from "lodash"
 import { useRef } from "react"
 import { scrollState } from "~/state/ScrollState"
 import { interactionManager } from "~/state/InteractionManager"
+import { pointResolution } from "~/consts"
 
 export function useTouchInteraction() {
   let activePointers = useRef<{ [pointerId: string]: string }>({}).current
@@ -17,7 +18,10 @@ export function useTouchInteraction() {
     const svgPoint = point.matrixTransform(
       ref.current!.getScreenCTM()?.inverse()
     )
-    return [svgPoint.x, svgPoint.y]
+    return [
+      Math.round(svgPoint.x / pointResolution) * pointResolution,
+      Math.round(svgPoint.y / pointResolution) * pointResolution,
+    ]
   }
 
   function onPointerDown(event: React.PointerEvent) {

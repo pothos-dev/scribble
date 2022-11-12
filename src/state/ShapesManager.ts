@@ -1,4 +1,5 @@
 import zustand from "zustand"
+import { simplificationTolerance } from "~/consts"
 import { extendBoundingRect, isInBoundingRect } from "~/lib/boundingRect"
 import { createId } from "~/lib/createId"
 import { simplifyPolyLine } from "~/lib/simplifyPolyLine"
@@ -66,7 +67,10 @@ export const useShapesManager = zustand<ShapesManager>()(set => ({
       let [currentShape, ...shapes] = state.shapes
 
       if ("points" in currentShape) {
-        currentShape.points = simplifyPolyLine(currentShape.points, 0.4)
+        currentShape.points = simplifyPolyLine(
+          currentShape.points,
+          simplificationTolerance
+        )
       }
 
       return { shapes: [currentShape, ...shapes] }
