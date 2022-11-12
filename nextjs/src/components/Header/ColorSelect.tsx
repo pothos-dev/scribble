@@ -12,7 +12,12 @@ export function ColorSelect() {
   const setColor = useSettings(s => s.setColor)
 
   useEffect(() => {
-    document.addEventListener("click", toggle)
+    // Defer adding eventListener, otherwise the initial click that opened this
+    // Widget will immediately close it again.
+    setTimeout(() => {
+      document.addEventListener("click", toggle)
+    }, 0)
+
     return () => document.removeEventListener("click", toggle)
   }, [])
 

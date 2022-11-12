@@ -1,5 +1,7 @@
 import { Tool, Shape, TouchInteraction, IToolInteraction, Point } from "~/types"
 import zustand from "zustand"
+import { createToolInteraction } from "~/lib/toolInteraction"
+import { settings } from "~/lib/Settings"
 
 type InteractionManager = {
   mode: TouchInteraction
@@ -22,13 +24,20 @@ export const useInteractionManager = zustand<InteractionManager>()(set => ({
 
   startPanZoom: point => set({ mode: "pan-zoom" }),
   startTool: point => {
-    set({ mode: "tool" })
-    // onTouchDown(point)
+    const tool = createToolInteraction(settings().tool)
+    set({
+      mode: "tool",
+      tool,
+      activeTool: settings().tool,
+    })
+    tool.onTouchDown(point)
   },
   startEraser: point => {
-    set({ mode: "tool", activeTool: "eraser" })
-    // onTouchDown(point)
+    const tool = createToolInteraction("eraser")
+    set({ mode: "tool", tool, activeTool: "eraser" })
+    tool.onTouchDown(point)
   },
   stopInteraction: () => set({ mode: "idle" }),
 }))
+
 export const interactionManager = useInteractionManager.getState

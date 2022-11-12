@@ -14,7 +14,7 @@ export function PolyLine({
       points={points.map(([x, y]) => `${x},${y}`).join(" ")}
       stroke={color}
       fill="none"
-      stroke-width={thickness}
+      strokeWidth={thickness}
       strokeLinejoin="round"
       strokeLinecap="round"
     />
