@@ -1,9 +1,11 @@
 import zustand from "zustand"
-import { Tool } from "~/types"
+import { tools } from "~/tools"
+import { ToolDef, ToolType } from "~/types"
 
 type Settings = {
-  tool: Tool
-  setTool(tool: Tool): void
+  tool: ToolDef
+  toolType: ToolType
+  setToolType(tool: ToolType): void
 
   color: string
   setColor(color: string): void
@@ -13,8 +15,13 @@ type Settings = {
 }
 
 export const useSettings = zustand<Settings>()(set => ({
-  tool: "pen",
-  setTool: tool => set({ tool }),
+  tool: tools.pen,
+  toolType: "pen",
+  setToolType: toolType =>
+    set({
+      toolType,
+      tool: tools[toolType],
+    }),
 
   color: "#000000",
   setColor: color => set({ color }),

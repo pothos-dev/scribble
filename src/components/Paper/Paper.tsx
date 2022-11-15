@@ -1,3 +1,4 @@
+import { values } from "lodash"
 import { PaperGrid } from "~/components/Paper/PaperGrid"
 import { Shape } from "~/components/Paper/Shape"
 import { useTouchInteraction } from "~/hooks/useTouchInteraction"
@@ -28,7 +29,7 @@ export function Paper({
 }
 
 function Shapes() {
-  const shapes = useShapesManager(s => s.shapes)
+  const shapes = values(useShapesManager(s => s.shapes))
 
   return (
     <>

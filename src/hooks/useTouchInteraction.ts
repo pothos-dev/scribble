@@ -45,7 +45,7 @@ export function useTouchInteraction() {
   }
 
   function onPointerCancel(event: React.PointerEvent) {
-    interactionManager().tool.onTouchUp(getPoint(event))
+    interactionManager().toolInteraction.onTouchUp(getPoint(event))
 
     // The pointer is no longer touching the paper
     delete activePointers[event.pointerId]
@@ -64,7 +64,7 @@ export function useTouchInteraction() {
       const { x, y, setScroll } = scrollState()
       setScroll(x - event.movementX, y - event.movementY)
     } else if (interaction == "tool") {
-      interactionManager().tool.onTouchMove(getPoint(event))
+      interactionManager().toolInteraction.onTouchMove(getPoint(event))
     }
   }
 

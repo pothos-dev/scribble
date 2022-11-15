@@ -6,7 +6,7 @@ export function Shape({ shape }: { shape: Shape }) {
     return <PolyLine {...shape} />
   }
 
-  if (shape.type == "select") {
+  if (shape.type == "rect") {
     return (
       <rect
         x={shape.boundingRect[0][0]}

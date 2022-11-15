@@ -1,12 +1,12 @@
-import { Tool, Shape, TouchInteraction, IToolInteraction, Point } from "~/types"
+import { ToolType, InteractionMode, ToolInteraction, Point } from "~/types"
 import zustand from "zustand"
-import { createToolInteraction } from "~/lib/toolInteraction"
 import { settings } from "~/state/Settings"
+import { tools } from "~/tools"
 
 type InteractionManager = {
-  mode: TouchInteraction
-  tool: IToolInteraction
-  activeTool: Tool
+  mode: InteractionMode
+  toolInteraction: ToolInteraction
+  activeToolType: ToolType
 
   startPanZoom(point: Point): void
   startTool(point: Point): void
@@ -15,8 +15,8 @@ type InteractionManager = {
 }
 export const useInteractionManager = zustand<InteractionManager>()(set => ({
   mode: "idle",
-  activeTool: "pen",
-  tool: {
+  activeToolType: "pen",
+  toolInteraction: {
     onTouchDown: () => {},
     onTouchMove: () => {},
     onTouchUp: () => {},
@@ -24,18 +24,18 @@ export const useInteractionManager = zustand<InteractionManager>()(set => ({
 
   startPanZoom: point => set({ mode: "pan-zoom" }),
   startTool: point => {
-    const tool = createToolInteraction(settings().tool)
-    set({
-      mode: "tool",
-      tool,
-      activeTool: settings().tool,
-    })
-    tool.onTouchDown(point)
+    const activeToolType = settings().toolType
+    const toolInteraction = settings().tool.createInteraction()
+    const mode = "tool"
+    toolInteraction.onTouchDown(point)
+    set({ mode, toolInteraction, activeToolType })
   },
   startEraser: point => {
-    const tool = createToolInteraction("eraser")
-    set({ mode: "tool", tool, activeTool: "eraser" })
-    tool.onTouchDown(point)
+    const activeToolType = "eraser"
+    const toolInteraction = tools.eraser.createInteraction()
+    const mode = "tool"
+    toolInteraction.onTouchDown(point)
+    set({ mode, toolInteraction, activeToolType })
   },
   stopInteraction: () => set({ mode: "idle" }),
 }))

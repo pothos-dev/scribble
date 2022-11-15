@@ -1,6 +1,6 @@
 import type { Shape } from "~/types"
 import jsPDF from "jspdf"
-import { range } from "lodash"
+import { range, values } from "lodash"
 import { shapesManager } from "~/state/ShapesManager"
 
 export async function downloadAsPdf() {
@@ -8,7 +8,7 @@ export async function downloadAsPdf() {
 
   drawGrid(pdf)
 
-  shapesManager().shapes.forEach(shape => {
+  values(shapesManager().shapes).forEach(shape => {
     drawShape(pdf, shape)
   })
 
