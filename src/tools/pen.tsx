@@ -1,3 +1,4 @@
+import { Shape } from "~/components/Paper/Shape"
 import { simplificationTolerance } from "~/consts"
 import { extendBoundingRect } from "~/lib/boundingRect"
 import { createId } from "~/lib/createId"
@@ -42,6 +43,11 @@ export const pen: ToolDef = {
         )
         shapesManager().addShape(polyline)
         polyline = null
+      },
+
+      render() {
+        if (!polyline) return null
+        return <Shape shape={polyline} />
       },
     }
   },

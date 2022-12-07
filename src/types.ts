@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 export type ToolType = "pen" | "line" | "rectangle" | "select" | "eraser"
 
 export type InteractionMode = "idle" | "pan-zoom" | "tool"
@@ -5,6 +7,7 @@ export type ToolInteraction = {
   onTouchDown(point: Point): void
   onTouchMove(point: Point): void
   onTouchUp(point: Point): void
+  render(): ReactNode
 }
 export type ToolDef = {
   createInteraction: () => ToolInteraction

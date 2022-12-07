@@ -5,8 +5,7 @@ import { shapesManager } from "~/state/ShapesManager"
 
 export async function downloadAsPdf() {
   const pdf = new jsPDF({})
-
-  drawGrid(pdf)
+  x
 
   values(shapesManager().shapes).forEach(shape => {
     drawShape(pdf, shape)

@@ -1,3 +1,4 @@
+import { Shape } from "~/components/Paper/Shape"
 import { extendBoundingRect } from "~/lib/boundingRect"
 import { createId } from "~/lib/createId"
 import { RectShape, ToolDef } from "~/types"
@@ -24,6 +25,11 @@ export const select: ToolDef = {
       onTouchUp(point) {
         if (!rect) return
         // todo?
+      },
+
+      render() {
+        if (!rect) return null
+        return <Shape shape={rect} />
       },
     }
   },

@@ -20,6 +20,7 @@ export const useInteractionManager = zustand<InteractionManager>()(set => ({
     onTouchDown: () => {},
     onTouchMove: () => {},
     onTouchUp: () => {},
+    render: () => null,
   },
 
   startPanZoom: point => set({ mode: "pan-zoom" }),
